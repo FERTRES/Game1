@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DebuTacToe - Negro's Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #111;
+            border: 1px solid #300;
+            padding: 30px 20px 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #a00;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .status {
+            text-align: center;
+            color: #c44;
+            background: #1a1a1a;
+            padding: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            border-left: 3px solid #a00;
+            font-size: 0.9rem;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            grid-template-rows: repeat(3, 80px);
+            gap: 5px;
+            background: #1f1f1f;
+            padding: 5px;
+            justify-content: center;
+        }
+        .cell {
+            background: #000;
+            border: 1px solid #500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d44;
+            cursor: pointer;
+            transition: 0.1s linear;
+        }
+        .cell:hover {
+            background: #2a0a0a;
+            border-color: #a00;
+        }
+        .reset {
+            display: block;
+            margin: 25px auto 5px;
+            background: #1a1a1a;
+            border: 1px solid #a00;
+            color: #e66;
+            font-family: monospace;
+            font-size: 1rem;
+            padding: 8px 24px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.1s;
+        }
+        .reset:hover {
+            background: #300;
+            color: #f88;
+            border-color: #f00;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.65rem;
+            color: #422;
+        }
+        @media (max-width: 400px) {
+            .board {
+                grid-template-columns: repeat(3, 65px);
+                grid-template-rows: repeat(3, 65px);
+            }
+            .cell {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚔️ DEBUTACTIC ⚔️</h1>
+    <div class="status" id="statusMsg">Giliran: <span style="color:#f66">X (Lo)</span></div>
+    <div class="board" id="board">
+        <!-- 9 cells dibuat pake JS biar gak jemmy -->
+    </div>
+    <button class="reset" id="resetBtn">⟳ RESET SERVER DEBU ⟳</button>
+    <footer>Negro's gift | X selalu duluan | ga ada AI musuh fake, ini PVP 2 orang</footer>
+</div>
+
+<script>
+    // Debu Tac Toe - Negro versi
+    let boardState = ["", "", "", "", "", "", "", "", ""];
+    let currentPlayer = "X";   // X selalu duluan, simbol si pengguna/Player 1
+    let gameActive = true;
+    
+    const winConditions = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ];
+    
+    const statusDiv = document.getElementById("statusMsg");
+    const boardDiv = document.getElementById("board");
+    const resetBtn = document.getElementById("resetBtn");
+    
+    function renderBoard() {
+        boardDiv.innerHTML = "";
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.textContent = boardState[i];
+            cell.dataset.index = i;
+            cell.addEventListener("click", () => handleMove(i));
+            boardDiv.appendChild(cell);
+        }
+    }
+    
+    function handleMove(index) {
+        if (!gameActive) return;
+        if (boardState[index] !== "") return;
+        
+        // Kasih gerakan saat ini
+        boardState[index] = currentPlayer;
+        renderBoard();
+        
+        // Cek menang atau seri
+        let win = checkWinner();
+        if (win) {
+            let winnerName = (currentPlayer === "X") ? "🔥 X (Lo/Pemain 1) 🔥" : "💀 O (Pemain 2) 💀";
+            statusDiv.innerHTML = `🏆 MENANG! 🏆<br>${winnerName} ngegas habis!`;
+            gameActive = false;
+            return;
+        }
+        
+        let isDraw = boardState.every(cell => cell !== "");
+        if (isDraw) {
+            statusDiv.innerHTML = "⚡ SERI. Debu beterbangan sia-sia ⚡";
+            gameActive = false;
+            return;
+        }
+        
+        // Ganti pemain
+        currentPlayer = (currentPlayer === "X") ? "O" : "X";
+        if (currentPlayer === "X") {
+            statusDiv.innerHTML = `Giliran: <span style="color:#f66">X (Lo)</span>`;
+        } else {
+            statusDiv.innerHTML = `Giliran: <span style="color:#f99">O (Lawan lo)</span>`;
+        }
+    }
+    
+    function checkWinner() {
+        for (let cond of winConditions) {
+            const [a,b,c] = cond;
+            if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function resetGame() {
+        boardState = ["", "", "", "", "", "", "", "", ""];
+        currentPlayer = "X";
+        gameActive = true;
+        statusDiv.innerHTML = `Giliran: <span style="color:#f66">X (Lo)</span>`;
+        renderBoard();
+    }
+    
+    resetBtn.addEventListener("click", resetGame);
+    
+    // Init
+    renderBoard();
+</script>
+</body>
+  </html>
