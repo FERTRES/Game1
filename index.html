@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Source Mirror</title>
+    <title>SOURCE MIRROR</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #0a0e1a;
             font-family: 'Courier New', 'Fira Code', monospace;
@@ -18,31 +17,21 @@
             min-height: 100vh;
             color: #e0e0e0;
         }
-
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
         }
-
         .header {
             text-align: center;
             margin-bottom: 30px;
             border-bottom: 2px solid #2a3a6a;
             padding-bottom: 20px;
         }
-
         .header h1 {
             font-size: 1.8rem;
             color: #6c9eff;
             letter-spacing: 2px;
         }
-
-        .header p {
-            color: #7a8aa0;
-            font-size: 0.8rem;
-            margin-top: 8px;
-        }
-
         .input-panel {
             background: #11161f;
             border: 1px solid #2a3a5a;
@@ -50,13 +39,11 @@
             padding: 22px;
             margin-bottom: 28px;
         }
-
         .url-input-group {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
         }
-
         .url-input {
             flex: 1;
             background: #0a0f18;
@@ -67,14 +54,11 @@
             font-family: monospace;
             font-size: 0.9rem;
             outline: none;
-            transition: 0.2s;
         }
-
         .url-input:focus {
             border-color: #6c9eff;
             box-shadow: 0 0 8px rgba(108,158,255,0.3);
         }
-
         .btn {
             background: #1e2a3e;
             border: 1px solid #3a5a8a;
@@ -83,25 +67,16 @@
             color: #bbd9ff;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
             font-family: monospace;
         }
-
         .btn-primary {
             background: #2a4a7a;
             border-color: #6c9eff;
             color: white;
         }
-
         .btn-primary:hover {
             background: #3a6aaa;
-            transform: translateY(-1px);
         }
-
-        .btn:hover {
-            background: #2a3a55;
-        }
-
         .options-bar {
             display: flex;
             gap: 15px;
@@ -109,7 +84,6 @@
             flex-wrap: wrap;
             align-items: center;
         }
-
         .checkbox-label {
             display: flex;
             align-items: center;
@@ -117,7 +91,6 @@
             font-size: 0.75rem;
             color: #8a9ac0;
         }
-
         .method-select {
             background: #0a0f18;
             border: 1px solid #2a4a7a;
@@ -128,17 +101,22 @@
             font-size: 0.75rem;
             cursor: pointer;
         }
-
-        .result-panel {
+        .split-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .result-panel, .preview-panel {
             background: #0c111c;
             border-radius: 18px;
             border: 1px solid #2a3a5a;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-
-        .result-header {
+        .panel-header {
             background: #0f1622;
-            padding: 14px 20px;
+            padding: 12px 20px;
             border-bottom: 1px solid #2a3a5a;
             display: flex;
             justify-content: space-between;
@@ -146,18 +124,15 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-
-        .result-title {
+        .panel-title {
             font-size: 0.8rem;
             color: #6c9eff;
             font-family: monospace;
         }
-
         .action-buttons {
             display: flex;
             gap: 10px;
         }
-
         .small-btn {
             background: #1a2538;
             border: 1px solid #3a5580;
@@ -168,53 +143,48 @@
             font-family: monospace;
             color: #bbd0ff;
         }
-
-        .small-btn:hover {
-            background: #2a3e60;
-        }
-
         .source-viewer {
             background: #050a12;
             padding: 20px;
             overflow: auto;
-            max-height: 550px;
-            font-family: 'Courier New', 'Fira Code', monospace;
+            max-height: 500px;
             font-size: 12px;
             line-height: 1.5;
             white-space: pre-wrap;
             word-break: break-word;
             color: #c0d0f0;
+            flex: 1;
         }
-
         .source-viewer pre {
             margin: 0;
             white-space: pre-wrap;
-            font-family: inherit;
+            font-family: 'Courier New', monospace;
         }
-
+        .preview-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            background: white;
+        }
         .error-message {
             background: #2a1018;
             border-left: 4px solid #ff6680;
             padding: 16px;
             color: #ffaa99;
-            font-family: monospace;
         }
-
         .loading {
             text-align: center;
             padding: 40px;
             color: #6c9eff;
-            font-family: monospace;
         }
-
         .footer {
             margin-top: 24px;
             text-align: center;
             font-size: 0.7rem;
             color: #4a5a78;
         }
-
-        @media (max-width: 680px) {
+        @media (max-width: 900px) {
+            .split-panel { grid-template-columns: 1fr; }
             body { padding: 12px; }
             .url-input-group { flex-direction: column; }
             .btn { width: 100%; }
@@ -225,7 +195,7 @@
 <div class="container">
     <div class="header">
         <h1>𝗦𝗢𝗨𝗥𝗖𝗘 𝗠𝗜𝗥𝗥𝗢𝗥</h1>
-        <p>ANDROID PHONE X OS PHONE</p>
+        <p></p>
     </div>
 
     <div class="input-panel">
@@ -235,38 +205,64 @@
         </div>
         <div class="options-bar">
             <label class="checkbox-label">
-                <input type="checkbox" id="prettyCheckbox" checked> Format rapi
+                <input type="checkbox" id="prettyCheckbox" checked> Pretty print
             </label>
             <label class="checkbox-label">
                 <input type="checkbox" id="rawCheckbox"> Raw response
             </label>
             <select id="methodSelect" class="method-select">
-                <option value="auto">Auto (coba semua)</option>
-                <option value="corsproxy">CORS Proxy</option>
+                <option value="auto">AUTO (coba semua)</option>
                 <option value="allorigins">AllOrigins</option>
-                <option value="jsonp">JSONP Google</option>
-                <option value="textise">Textise.iitty</option>
+                <option value="corsproxy">CORSProxy.io</option>
+                <option value="corsa">CORS Anywhere</option>
+                <option value="corst">cors.sh</option>
+                <option value="googlecache">Google Cache</option>
+                <option value="yandex">Yandex Cache</option>
+                <option value="archive">Archive.org</option>
+                <option value="textise">Textise</option>
+                <option value="r.jina">Jina Reader</option>
+                <option value="whatsmydns">Whatsmydns</option>
+                <option value="iframe">Iframe Extract</option>
+                <option value="scraperapi">ScraperAPI Mirror</option>
+                <option value="direct">Direct Fetch</option>
             </select>
         </div>
     </div>
 
-    <div class="result-panel">
-        <div class="result-header">
-            <span class="result-title" id="resultUrlLabel">URL: -</span>
-            <div class="action-buttons">
-                <button id="copyBtn" class="small-btn">COPY</button>
-                <button id="downloadBtn" class="small-btn">DOWNLOAD</button>
-                <button id="clearBtn" class="small-btn">CLEAR</button>
+    <div class="split-panel">
+        <!-- SOURCE PANEL -->
+        <div class="result-panel">
+            <div class="panel-header">
+                <span class="panel-title" id="resultUrlLabel">URL: -</span>
+                <div class="action-buttons">
+                    <button id="copyBtn" class="small-btn">COPY</button>
+                    <button id="downloadBtn" class="small-btn">DOWNLOAD</button>
+                    <button id="clearBtn" class="small-btn">CLEAR</button>
+                </div>
+            </div>
+            <div id="sourceContainer" class="source-viewer">
+                <div style="color: #6a7c9e; text-align: center; padding: 40px;">
+                    masukkan URL dan klik ambil
+                </div>
             </div>
         </div>
-        <div id="sourceContainer" class="source-viewer">
-            <div style="color: #6a7c9e; text-align: center; padding: 40px;">
-                Taruh link target
+
+        <!-- PREVIEW PANEL -->
+        <div class="preview-panel">
+            <div class="panel-header">
+                <span class="panel-title">PREVIEW</span>
+                <div class="action-buttons">
+                    <button id="refreshPreviewBtn" class="small-btn">REFRESH</button>
+                    <button id="openPreviewBtn" class="small-btn">TABNEW</button>
+                </div>
+            </div>
+            <div id="previewContainer" style="flex:1; background:#fff; display: flex; align-items: center; justify-content: center;">
+                <iframe id="previewFrame" class="preview-frame" srcdoc="<html><body style='background:#1a1a2a;color:#aaa;display:flex;align-items:center;justify-content:center;height:100%;font-family:monospace'>Preview akan muncul setelah source diambil</body></html>"></iframe>
             </div>
         </div>
     </div>
     <div class="footer">
-        ©by derty
+        ©by derty v1.003
     </div>
 </div>
 
@@ -277,6 +273,9 @@
     const copyBtn = document.getElementById('copyBtn');
     const downloadBtn = document.getElementById('downloadBtn');
     const clearBtn = document.getElementById('clearBtn');
+    const refreshPreviewBtn = document.getElementById('refreshPreviewBtn');
+    const openPreviewBtn = document.getElementById('openPreviewBtn');
+    const previewFrame = document.getElementById('previewFrame');
     const resultUrlLabel = document.getElementById('resultUrlLabel');
     const prettyCheckbox = document.getElementById('prettyCheckbox');
     const rawCheckbox = document.getElementById('rawCheckbox');
@@ -284,104 +283,205 @@
 
     let lastRawHtml = '';
     let lastFetchedUrl = '';
+    let lastRawUrl = '';
 
-    // METHOD 1: AllOrigins (CORS proxy gratis)
-    async function fetchAllOrigins(url) {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        if (!res.ok) throw new Error(`AllOrigins HTTP ${res.status}`);
+    // ===================== METHODE IMPLEMENTASI =====================
+
+    async function m_allorigins(url) {
+        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const res = await fetch(proxy);
+        if (!res.ok) throw new Error(`AllOrigins ${res.status}`);
         return await res.text();
     }
 
-    // METHOD 2: CORSProxy.io
-    async function fetchCorsProxy(url) {
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        if (!res.ok) throw new Error(`CORSProxy HTTP ${res.status}`);
+    async function m_corsproxy(url) {
+        const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+        const res = await fetch(proxy);
+        if (!res.ok) throw new Error(`CORSProxy ${res.status}`);
         return await res.text();
     }
 
-    // METHOD 3: JSONP via Google WebCache (alternatif)
-    async function fetchViaGoogleCache(url) {
+    async function m_corsa(url) {
+        const proxy = `https://cors-anywhere.herokuapp.com/${url}`;
+        const res = await fetch(proxy, { headers: { 'Origin': window.location.origin } });
+        if (!res.ok) throw new Error(`CORS Anywhere ${res.status}`);
+        return await res.text();
+    }
+
+    async function m_corst(url) {
+        const proxy = `https://cors.sh/${url}`;
+        const res = await fetch(proxy, { headers: { 'Origin': window.location.origin, 'x-cors-grin': 'true' } });
+        if (!res.ok) throw new Error(`cors.sh error ${res.status}`);
+        return await res.text();
+    }
+
+    async function m_googlecache(url) {
         const cacheUrl = `https://webcache.googleusercontent.com/search?q=cache:${encodeURIComponent(url)}&strip=1&vwsrc=0`;
-        const res = await fetch(cacheUrl, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
-        });
-        if (!res.ok) throw new Error('Google cache tidak tersedia');
+        const res = await fetch(cacheUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        if (!res.ok) throw new Error('Google cache tidak ditemukan');
         let html = await res.text();
-        // ekstrak konten dari halaman cache google
-        if (html.includes('<pre') || html.includes('id="google-cache')) {
-            return html;
-        }
+        const match = html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i);
+        if (match) return match[1];
         return html;
     }
 
-    // METHOD 4: Textise.iitty (scraper sederhana)
-    async function fetchTextise(url) {
+    async function m_yandex(url) {
+        const cacheUrl = `https://cache.yandex.net/caches/navigator?url=${encodeURIComponent(url)}&strip=1`;
+        const res = await fetch(cacheUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        if (!res.ok) throw new Error('Yandex cache tidak tersedia');
+        return await res.text();
+    }
+
+    async function m_archive(url) {
+        const apiUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(url)}`;
+        const meta = await fetch(apiUrl);
+        const metaJson = await meta.json();
+        if (!metaJson.archived_snapshots?.closest) throw new Error('Tidak ada snapshot di archive.org');
+        const snapshotUrl = metaJson.archived_snapshots.closest.url;
+        const res = await fetch(snapshotUrl);
+        if (!res.ok) throw new Error('gagal mengambil snapshot');
+        return await res.text();
+    }
+
+    async function m_textise(url) {
         const textiseUrl = `https://textise.iitty.com/?u=${encodeURIComponent(url)}`;
         const res = await fetch(textiseUrl);
         if (!res.ok) throw new Error('Textise gagal');
-        let text = await res.text();
-        const match = text.match(/<div id="content"[^>]*>([\s\S]*?)<\/div>/i);
+        let txt = await res.text();
+        const match = txt.match(/<div id="content"[^>]*>([\s\S]*?)<\/div>/i);
         if (match && match[1]) return match[1];
         throw new Error('tidak bisa parse textise');
     }
 
-    // METHOD 5: direct fetch (tanpa proxy)
-    async function fetchDirect(url) {
-        const res = await fetch(url, {
-            mode: 'cors',
-            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SourceViewer/1.0)' }
+    async function m_jina(url) {
+        const jinaUrl = `https://r.jina.ai/${encodeURIComponent(url)}`;
+        const res = await fetch(jinaUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        if (!res.ok) throw new Error(`Jina AI error ${res.status}`);
+        return await res.text();
+    }
+
+    async function m_whatsmydns(url) {
+        const api = `https://www.whatsmydns.net/api/lookup?type=HTML&host=${encodeURIComponent(url)}`;
+        const res = await fetch(api);
+        if (!res.ok) throw new Error('whatsmydns api error');
+        const json = await res.json();
+        if (json?.data?.html) return json.data.html;
+        throw new Error('no source from whatsmydns');
+    }
+
+    async function m_iframe(url) {
+        return new Promise((resolve, reject) => {
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+            iframe.sandbox = 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals';
+            let timeout = setTimeout(() => {
+                iframe.remove();
+                reject(new Error('iframe timeout / CORS block'));
+            }, 15000);
+            iframe.onload = () => {
+                try {
+                    let doc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (doc && doc.documentElement) {
+                        let html = doc.documentElement.outerHTML;
+                        clearTimeout(timeout);
+                        iframe.remove();
+                        resolve(html);
+                    } else {
+                        clearTimeout(timeout);
+                        iframe.remove();
+                        reject(new Error('tidak bisa akses konten iframe (CORS)'));
+                    }
+                } catch (e) {
+                    clearTimeout(timeout);
+                    iframe.remove();
+                    reject(new Error('iframe cross-origin blocked'));
+                }
+            };
+            iframe.onerror = () => {
+                clearTimeout(timeout);
+                iframe.remove();
+                reject(new Error('iframe gagal load'));
+            };
+            document.body.appendChild(iframe);
         });
+    }
+
+    async function m_scraperapi(url) {
+        const apiUrl = `https://scraperapi.p.rapidapi.com/?url=${encodeURIComponent(url)}&render=true`;
+        try {
+            const res = await fetch(apiUrl, {
+                headers: { 'x-rapidapi-key': 'demo', 'x-rapidapi-host': 'scraperapi.p.rapidapi.com' }
+            });
+            if (!res.ok) throw new Error('scraperapi error');
+            return await res.text();
+        } catch (e) {
+            const fallback = await m_allorigins(url);
+            return fallback;
+        }
+    }
+
+    async function m_direct(url) {
+        const res = await fetch(url, { mode: 'cors', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OmniSource)' } });
         if (!res.ok) throw new Error(`Direct HTTP ${res.status}`);
         return await res.text();
     }
 
-    async function fetchWithMethod(url, method) {
-        switch(method) {
-            case 'allorigins': return await fetchAllOrigins(url);
-            case 'corsproxy': return await fetchCorsProxy(url);
-            case 'jsonp': return await fetchViaGoogleCache(url);
-            case 'textise': return await fetchTextise(url);
-            case 'direct': return await fetchDirect(url);
-            default: throw new Error('unknown method');
-        }
+    const methodMap = {
+        allorigins: m_allorigins,
+        corsproxy: m_corsproxy,
+        corsa: m_corsa,
+        corst: m_corst,
+        googlecache: m_googlecache,
+        yandex: m_yandex,
+        archive: m_archive,
+        textise: m_textise,
+        'r.jina': m_jina,
+        whatsmydns: m_whatsmydns,
+        iframe: m_iframe,
+        scraperapi: m_scraperapi,
+        direct: m_direct
+    };
+
+    async function fetchWithMethod(url, methodName) {
+        const fn = methodMap[methodName];
+        if (!fn) throw new Error(`metode ${methodName} tidak dikenal`);
+        return await fn(url);
     }
 
     async function fetchAuto(url) {
-        const methods = ['allorigins', 'corsproxy', 'jsonp', 'textise', 'direct'];
+        const order = ['allorigins', 'corsproxy', 'corsa', 'corst', 'googlecache', 'yandex', 'archive', 'textise', 'r.jina', 'whatsmydns', 'scraperapi', 'iframe', 'direct'];
         let lastError = null;
-        for (const m of methods) {
+        for (const m of order) {
             try {
-                const result = await fetchWithMethod(url, m);
-                if (result && result.length > 50) {
-                    console.log(`success using ${m}`);
-                    return result;
+                const html = await fetchWithMethod(url, m);
+                if (html && html.length > 30) {
+                    console.log(`sukses pakai ${m}`);
+                    return { html, method: m };
                 }
             } catch (e) {
                 lastError = e;
-                console.warn(`${m} failed:`, e.message);
+                console.warn(`${m} gagal:`, e.message);
             }
         }
-        throw lastError || new Error('semua metode gagal');
+        throw lastError || new Error('semua metode gagal total');
     }
 
-    async function fetchHtmlSmart(url) {
-        const selectedMethod = methodSelect.value;
-        if (selectedMethod === 'auto') {
-            return await fetchAuto(url);
+    async function masterFetch(url) {
+        const selected = methodSelect.value;
+        if (selected === 'auto') {
+            const { html, method } = await fetchAuto(url);
+            return { html, method };
         } else {
-            return await fetchWithMethod(url, selectedMethod);
+            const html = await fetchWithMethod(url, selected);
+            return { html, method: selected };
         }
     }
 
-    function prettyPrintHtml(htmlString) {
-        if (rawCheckbox.checked) return htmlString;
-        
-        let formatted = htmlString
-            .replace(/>\s*</g, '>\n<')
-            .replace(/(\n\s*)+/g, '\n');
-        
+    // UTILITIES
+    function prettyHtml(html) {
+        if (rawCheckbox.checked) return html;
+        let formatted = html.replace(/>\s*</g, '>\n<').replace(/(\n\s*)+/g, '\n');
         let indent = 0;
         let lines = formatted.split('\n');
         let result = [];
@@ -397,117 +497,124 @@
         return result.join('\n');
     }
 
-    function displaySource(htmlContent, originalUrl, methodUsed = '') {
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function updatePreview(htmlContent, baseUrl) {
+        if (!htmlContent) {
+            previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#aaa;display:flex;align-items:center;justify-content:center;height:100%'>Preview tidak tersedia</body></html>";
+            return;
+        }
+        let doc = htmlContent;
+        if (!doc.toLowerCase().includes('<html')) {
+            doc = `<html><head><base href="${baseUrl}"></head><body>${doc}</body></html>`;
+        } else {
+            doc = doc.replace(/<head/i, `<head><base href="${baseUrl}">`);
+        }
+        previewFrame.srcdoc = doc;
+    }
+
+    function displaySource(htmlContent, originalUrl, methodUsed) {
         lastRawHtml = htmlContent;
         lastFetchedUrl = originalUrl;
-        let info = `URL: ${originalUrl} | size: ${(htmlContent.length/1024).toFixed(1)} KB`;
-        if (methodUsed) info += ` | method: ${methodUsed}`;
+        let info = `${originalUrl} | ${(htmlContent.length/1024).toFixed(1)} KB | method: ${methodUsed}`;
         resultUrlLabel.innerText = info;
-
-        let finalHtml = prettyCheckbox.checked ? prettyPrintHtml(htmlContent) : htmlContent;
-        const escaped = escapeHtml(finalHtml);
-        sourceContainer.innerHTML = `<pre>${escaped}</pre>`;
+        let finalHtml = prettyCheckbox.checked ? prettyHtml(htmlContent) : htmlContent;
+        sourceContainer.innerHTML = `<pre>${escapeHtml(finalHtml)}</pre>`;
+        updatePreview(htmlContent, originalUrl);
     }
 
-    function escapeHtml(str) {
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-
-    function showError(msg, urlHint = '') {
+    function showError(msg, url) {
         sourceContainer.innerHTML = `<div class="error-message">
-            GAGAL mengambil source<br>
-            Detail: ${escapeHtml(msg)}<br>
-            URL: ${escapeHtml(urlHint || targetUrlInput.value)}
-            <br><br>Tips: coba ganti metode di dropdown (jsonp / textise)
+            GAGAL: ${escapeHtml(msg)}<br>
+            URL: ${escapeHtml(url)}<br>
+            coba ganti metode (googlecache / archive / iframe)
         </div>`;
+        previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#ff8888;display:flex;align-items:center;justify-content:center;height:100%'>Gagal memuat preview</body></html>";
         lastRawHtml = '';
-        resultUrlLabel.innerText = `URL: error`;
+        resultUrlLabel.innerText = 'error';
     }
 
     function showLoading() {
-        sourceContainer.innerHTML = `<div class="loading">memuat source ... (${methodSelect.value})</div>`;
+        sourceContainer.innerHTML = `<div class="loading">⟳ mengeksekusi ${methodSelect.value} ...</div>`;
+        previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#6c9eff;display:flex;align-items:center;justify-content:center;height:100%'>Memuat preview...</body></html>";
     }
 
     async function fetchSource() {
         let rawUrl = targetUrlInput.value.trim();
-        if (!rawUrl) {
-            showError('URL kosong');
-            return;
-        }
-        if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
-            rawUrl = 'https://' + rawUrl;
-            targetUrlInput.value = rawUrl;
-        }
-        
+        if (!rawUrl) { showError('URL kosong', ''); return; }
+        if (!rawUrl.startsWith('http')) rawUrl = 'https://' + rawUrl;
+        targetUrlInput.value = rawUrl;
+        lastRawUrl = rawUrl;
         showLoading();
-        
         try {
-            const htmlContent = await fetchHtmlSmart(rawUrl);
-            if (!htmlContent || htmlContent.length < 20) {
-                throw new Error('konten terlalu pendek atau tidak valid');
-            }
-            let usedMethod = methodSelect.value;
-            if (usedMethod === 'auto') usedMethod = 'auto (berhasil)';
-            displaySource(htmlContent, rawUrl, usedMethod);
+            const { html, method } = await masterFetch(rawUrl);
+            if (!html || html.length < 15) throw new Error('konten terlalu pendek');
+            displaySource(html, rawUrl, method);
         } catch (err) {
-            console.error(err);
             showError(err.message, rawUrl);
         }
     }
 
-    async function copySource() {
-        if (!lastRawHtml) {
-            alert('tidak ada source. ambil source terlebih dahulu.');
-            return;
-        }
-        try {
-            await navigator.clipboard.writeText(lastRawHtml);
-            alert('source HTML berhasil disalin');
-        } catch (e) {
-            alert('gagal menyalin: ' + e.message);
+    function refreshPreview() {
+        if (lastRawHtml && lastFetchedUrl) {
+            updatePreview(lastRawHtml, lastFetchedUrl);
+        } else if (lastRawUrl) {
+            previewFrame.src = lastRawUrl;
+        } else {
+            alert('belum ada halaman yang diambil');
         }
     }
 
-    function downloadSource() {
-        if (!lastRawHtml) {
-            alert('tidak ada konten untuk didownload.');
-            return;
+    function openPreviewNewTab() {
+        if (lastRawHtml && lastFetchedUrl) {
+            const blob = new Blob([lastRawHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        } else if (lastRawUrl) {
+            window.open(lastRawUrl, '_blank');
+        } else {
+            alert('tidak ada preview untuk dibuka');
         }
+    }
+
+    function copySource() {
+        if (!lastRawHtml) { alert('tidak ada source'); return; }
+        navigator.clipboard.writeText(lastRawHtml);
+        alert('source disalin');
+    }
+
+    function downloadSource() {
+        if (!lastRawHtml) { alert('tidak ada konten'); return; }
         const blob = new Blob([lastRawHtml], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        let fileName = 'source_view.html';
-        if (lastFetchedUrl) {
-            let domain = lastFetchedUrl.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/[^a-z0-9]/gi, '_');
-            fileName = `source_${domain}_${Date.now()}.html`;
-        }
+        let fname = lastFetchedUrl ? `omni_${lastFetchedUrl.replace(/[^a-z0-9]/gi, '_').substring(0, 50)}.html` : 'source.html';
         a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
+        a.download = fname;
         a.click();
-        document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
 
     function clearAll() {
-        sourceContainer.innerHTML = `<div style="color: #6a7c9e; text-align: center; padding: 40px;">
-            bersih. masukkan URL baru.
-        </div>`;
+        sourceContainer.innerHTML = `<div style="color: #6a7c9e; text-align: center; padding: 40px;">bersih. masukkan url baru.</div>`;
+        previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#aaa;display:flex;align-items:center;justify-content:center;height:100%'>Preview akan muncul setelah source diambil</body></html>";
         lastRawHtml = '';
         lastFetchedUrl = '';
         resultUrlLabel.innerText = 'URL: -';
     }
 
-    function reRenderCurrentSource() {
+    function reRender() {
         if (lastRawHtml) {
-            let final = prettyCheckbox.checked ? prettyPrintHtml(lastRawHtml) : lastRawHtml;
-            const escaped = escapeHtml(final);
-            sourceContainer.innerHTML = `<pre>${escaped}</pre>`;
+            let final = prettyCheckbox.checked ? prettyHtml(lastRawHtml) : lastRawHtml;
+            sourceContainer.innerHTML = `<pre>${escapeHtml(final)}</pre>`;
         }
     }
 
@@ -515,13 +622,11 @@
     copyBtn.addEventListener('click', copySource);
     downloadBtn.addEventListener('click', downloadSource);
     clearBtn.addEventListener('click', clearAll);
-    
-    targetUrlInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') fetchSource();
-    });
-    
-    prettyCheckbox.addEventListener('change', reRenderCurrentSource);
-    rawCheckbox.addEventListener('change', reRenderCurrentSource);
+    refreshPreviewBtn.addEventListener('click', refreshPreview);
+    openPreviewBtn.addEventListener('click', openPreviewNewTab);
+    targetUrlInput.addEventListener('keypress', e => { if (e.key === 'Enter') fetchSource(); });
+    prettyCheckbox.addEventListener('change', reRender);
+    rawCheckbox.addEventListener('change', reRender);
 </script>
 </body>
     </html>
