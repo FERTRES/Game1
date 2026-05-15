@@ -2,202 +2,456 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DebuTacToe - Negro's Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Source Mirror Phone</title>
     <style>
         * {
-            box-sizing: border-box;
-            user-select: none;
-        }
-        body {
-            background: #0a0a0a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Courier New', monospace;
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0e1a;
+            font-family: 'Courier New', 'Fira Code', monospace;
             padding: 20px;
+            min-height: 100vh;
+            color: #e0e0e0;
         }
+
         .container {
-            background: #111;
-            border: 1px solid #300;
-            padding: 30px 20px 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(255,0,0,0.2);
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        h1 {
+
+        .header {
             text-align: center;
-            color: #a00;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2a3a6a;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
             font-size: 1.8rem;
-            margin-top: 0;
-            margin-bottom: 20px;
+            color: #6c9eff;
             letter-spacing: 2px;
         }
-        .status {
-            text-align: center;
-            color: #c44;
-            background: #1a1a1a;
-            padding: 8px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            border-left: 3px solid #a00;
+
+        .header p {
+            color: #7a8aa0;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .input-panel {
+            background: #11161f;
+            border: 1px solid #2a3a5a;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 28px;
+        }
+
+        .url-input-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .url-input {
+            flex: 1;
+            background: #0a0f18;
+            border: 1px solid #2a4a7a;
+            padding: 14px 18px;
+            border-radius: 40px;
+            color: #b0d0ff;
+            font-family: monospace;
             font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
         }
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 80px);
-            grid-template-rows: repeat(3, 80px);
-            gap: 5px;
-            background: #1f1f1f;
-            padding: 5px;
-            justify-content: center;
+
+        .url-input:focus {
+            border-color: #6c9eff;
+            box-shadow: 0 0 8px rgba(108,158,255,0.3);
         }
-        .cell {
-            background: #000;
-            border: 1px solid #500;
+
+        .btn {
+            background: #1e2a3e;
+            border: 1px solid #3a5a8a;
+            padding: 12px 28px;
+            border-radius: 40px;
+            color: #bbd9ff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: monospace;
+        }
+
+        .btn-primary {
+            background: #2a4a7a;
+            border-color: #6c9eff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a6aaa;
+            transform: translateY(-1px);
+        }
+
+        .btn:hover {
+            background: #2a3a55;
+        }
+
+        .options-bar {
+            display: flex;
+            gap: 15px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .checkbox-label {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #d44;
-            cursor: pointer;
-            transition: 0.1s linear;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #8a9ac0;
         }
-        .cell:hover {
-            background: #2a0a0a;
-            border-color: #a00;
+
+        .result-panel {
+            background: #0c111c;
+            border-radius: 18px;
+            border: 1px solid #2a3a5a;
+            overflow: hidden;
         }
-        .reset {
-            display: block;
-            margin: 25px auto 5px;
-            background: #1a1a1a;
-            border: 1px solid #a00;
-            color: #e66;
+
+        .result-header {
+            background: #0f1622;
+            padding: 14px 20px;
+            border-bottom: 1px solid #2a3a5a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .result-title {
+            font-size: 0.8rem;
+            color: #6c9eff;
             font-family: monospace;
-            font-size: 1rem;
-            padding: 8px 24px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .small-btn {
+            background: #1a2538;
+            border: 1px solid #3a5580;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.1s;
+            font-family: monospace;
+            color: #bbd0ff;
         }
-        .reset:hover {
-            background: #300;
-            color: #f88;
-            border-color: #f00;
+
+        .small-btn:hover {
+            background: #2a3e60;
         }
-        footer {
+
+        .source-viewer {
+            background: #050a12;
+            padding: 20px;
+            overflow: auto;
+            max-height: 550px;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #c0d0f0;
+        }
+
+        .source-viewer pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: inherit;
+        }
+
+        .error-message {
+            background: #2a1018;
+            border-left: 4px solid #ff6680;
+            padding: 16px;
+            color: #ffaa99;
+            font-family: monospace;
+        }
+
+        .loading {
             text-align: center;
-            margin-top: 20px;
-            font-size: 0.65rem;
-            color: #422;
+            padding: 40px;
+            color: #6c9eff;
+            font-family: monospace;
         }
-        @media (max-width: 400px) {
-            .board {
-                grid-template-columns: repeat(3, 65px);
-                grid-template-rows: repeat(3, 65px);
-            }
-            .cell {
-                font-size: 2.5rem;
-            }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #4a5a78;
+        }
+
+        @media (max-width: 680px) {
+            body { padding: 12px; }
+            .url-input-group { flex-direction: column; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>⚔️ DEBUTACTIC ⚔️</h1>
-    <div class="status" id="statusMsg">Giliran: <span style="color:#f66">X (Lo)</span></div>
-    <div class="board" id="board">
-        <!-- 9 cells dibuat pake JS biar gak jemmy -->
+    <div class="header">
+        <h1>SOURCE MIRROR BY DERTY</h1>
+        <p>ANDROID PHONE X OS PHONE</p>
     </div>
-    <button class="reset" id="resetBtn">⟳ RESET SERVER DEBU ⟳</button>
-    <footer>Negro's gift | X selalu duluan | ga ada AI musuh fake, ini PVP 2 orang</footer>
+
+    <div class="input-panel">
+        <div class="url-input-group">
+            <input type="text" id="targetUrl" class="url-input" placeholder="masukkan URL web target (contoh: https://example.com)" value="https://example.com">
+            <button id="fetchBtn" class="btn btn-primary">AMBIL CODE</button>
+        </div>
+        <div class="options-bar">
+            <label class="checkbox-label">
+                <input type="checkbox" id="prettyCheckbox" checked> Format rapi
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="rawCheckbox"> Rraw response
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="injectProxyCheckbox" checked> Gunakan CORS proxy
+            </label>
+        </div>
+    </div>
+
+    <div class="result-panel">
+        <div class="result-header">
+            <span class="result-title" id="resultUrlLabel">URL: -</span>
+            <div class="action-buttons">
+                <button id="copyBtn" class="small-btn">COPY</button>
+                <button id="downloadBtn" class="small-btn">DOWNLOAD</button>
+                <button id="clearBtn" class="small-btn">CLEAR</button>
+            </div>
+        </div>
+        <div id="sourceContainer" class="source-viewer">
+            <div style="color: #6a7c9e; text-align: center; padding: 40px;">
+                Taruh link target
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        ©ANDROID PHONE X OS PHONE 
+    </div>
 </div>
 
 <script>
-    // Debu Tac Toe - Negro versi
-    let boardState = ["", "", "", "", "", "", "", "", ""];
-    let currentPlayer = "X";   // X selalu duluan, simbol si pengguna/Player 1
-    let gameActive = true;
-    
-    const winConditions = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ];
-    
-    const statusDiv = document.getElementById("statusMsg");
-    const boardDiv = document.getElementById("board");
-    const resetBtn = document.getElementById("resetBtn");
-    
-    function renderBoard() {
-        boardDiv.innerHTML = "";
-        for (let i = 0; i < 9; i++) {
-            const cell = document.createElement("div");
-            cell.classList.add("cell");
-            cell.textContent = boardState[i];
-            cell.dataset.index = i;
-            cell.addEventListener("click", () => handleMove(i));
-            boardDiv.appendChild(cell);
+    const targetUrlInput = document.getElementById('targetUrl');
+    const fetchBtn = document.getElementById('fetchBtn');
+    const sourceContainer = document.getElementById('sourceContainer');
+    const copyBtn = document.getElementById('copyBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const resultUrlLabel = document.getElementById('resultUrlLabel');
+    const prettyCheckbox = document.getElementById('prettyCheckbox');
+    const rawCheckbox = document.getElementById('rawCheckbox');
+    const injectProxyCheckbox = document.getElementById('injectProxyCheckbox');
+
+    let lastRawHtml = '';
+    let lastFetchedUrl = '';
+
+    async function fetchHtmlViaProxy(url) {
+        const useProxy = injectProxyCheckbox.checked;
+        
+        if (!useProxy) {
+            const response = await fetch(url, {
+                mode: 'cors',
+                headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SourceMirror/1.0)' }
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.text();
         }
+        
+        try {
+            const allOriginsUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+            const resp = await fetch(allOriginsUrl);
+            if (resp.ok) {
+                return await resp.text();
+            }
+        } catch (e) {}
+
+        try {
+            const corsProxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+            const resp2 = await fetch(corsProxy);
+            if (resp2.ok) {
+                return await resp2.text();
+            }
+        } catch (e) {}
+
+        try {
+            const tpUrl = `https://api.thingsproxy.com/get?url=${encodeURIComponent(url)}`;
+            const resp3 = await fetch(tpUrl);
+            if (resp3.ok) {
+                const json = await resp3.json();
+                if (json && json.content) return json.content;
+            }
+        } catch (e) {}
+
+        throw new Error('Gagal mengambil source melalui proxy.');
     }
-    
-    function handleMove(index) {
-        if (!gameActive) return;
-        if (boardState[index] !== "") return;
+
+    function prettyPrintHtml(htmlString) {
+        if (rawCheckbox.checked) return htmlString;
         
-        // Kasih gerakan saat ini
-        boardState[index] = currentPlayer;
-        renderBoard();
+        let formatted = htmlString
+            .replace(/>\s*</g, '>\n<')
+            .replace(/(\n\s*)+/g, '\n');
         
-        // Cek menang atau seri
-        let win = checkWinner();
-        if (win) {
-            let winnerName = (currentPlayer === "X") ? "🔥 X (Lo/Pemain 1) 🔥" : "💀 O (Pemain 2) 💀";
-            statusDiv.innerHTML = `🏆 MENANG! 🏆<br>${winnerName} ngegas habis!`;
-            gameActive = false;
-            return;
-        }
-        
-        let isDraw = boardState.every(cell => cell !== "");
-        if (isDraw) {
-            statusDiv.innerHTML = "⚡ SERI. Debu beterbangan sia-sia ⚡";
-            gameActive = false;
-            return;
-        }
-        
-        // Ganti pemain
-        currentPlayer = (currentPlayer === "X") ? "O" : "X";
-        if (currentPlayer === "X") {
-            statusDiv.innerHTML = `Giliran: <span style="color:#f66">X (Lo)</span>`;
-        } else {
-            statusDiv.innerHTML = `Giliran: <span style="color:#f99">O (Lawan lo)</span>`;
-        }
-    }
-    
-    function checkWinner() {
-        for (let cond of winConditions) {
-            const [a,b,c] = cond;
-            if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
-                return true;
+        let indent = 0;
+        let lines = formatted.split('\n');
+        let result = [];
+        for (let line of lines) {
+            let trimmed = line.trim();
+            if (trimmed.match(/^<\/[^>]+>/)) indent = Math.max(0, indent - 1);
+            let spaces = '  '.repeat(indent);
+            result.push(spaces + trimmed);
+            if (trimmed.match(/^<[^\/?!][^>]*[^\/]>$/) && !trimmed.match(/<(br|hr|img|input|link|meta|area|base|col|embed|source|track|wbr)/i)) {
+                indent++;
             }
         }
-        return false;
+        return result.join('\n');
     }
-    
-    function resetGame() {
-        boardState = ["", "", "", "", "", "", "", "", ""];
-        currentPlayer = "X";
-        gameActive = true;
-        statusDiv.innerHTML = `Giliran: <span style="color:#f66">X (Lo)</span>`;
-        renderBoard();
+
+    function displaySource(htmlContent, originalUrl) {
+        lastRawHtml = htmlContent;
+        lastFetchedUrl = originalUrl;
+        resultUrlLabel.innerText = `URL: ${originalUrl} | size: ${(htmlContent.length/1024).toFixed(1)} KB`;
+
+        let finalHtml = prettyCheckbox.checked ? prettyPrintHtml(htmlContent) : htmlContent;
+        const escaped = escapeHtml(finalHtml);
+        sourceContainer.innerHTML = `<pre>${escaped}</pre>`;
     }
+
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function showError(msg, urlHint = '') {
+        sourceContainer.innerHTML = `<div class="error-message">
+            GAGAL mengambil source<br>
+            Detail: ${escapeHtml(msg)}<br>
+            URL: ${escapeHtml(urlHint || targetUrlInput.value)}
+        </div>`;
+        lastRawHtml = '';
+        resultUrlLabel.innerText = `URL: error`;
+    }
+
+    function showLoading() {
+        sourceContainer.innerHTML = `<div class="loading">mengambil source ... memuat konten via proxy</div>`;
+    }
+
+    async function fetchSource() {
+        let rawUrl = targetUrlInput.value.trim();
+        if (!rawUrl) {
+            showError('URL kosong');
+            return;
+        }
+        if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
+            rawUrl = 'https://' + rawUrl;
+            targetUrlInput.value = rawUrl;
+        }
+        
+        showLoading();
+        
+        try {
+            const htmlContent = await fetchHtmlViaProxy(rawUrl);
+            if (!htmlContent || htmlContent.length < 10) {
+                throw new Error('konten terlalu pendek');
+            }
+            displaySource(htmlContent, rawUrl);
+        } catch (err) {
+            console.error(err);
+            showError(err.message, rawUrl);
+        }
+    }
+
+    async function copySource() {
+        if (!lastRawHtml) {
+            alert('tidak ada source. ambil source terlebih dahulu.');
+            return;
+        }
+        try {
+            await navigator.clipboard.writeText(lastRawHtml);
+            alert('source HTML berhasil disalin');
+        } catch (e) {
+            alert('gagal menyalin: ' + e.message);
+        }
+    }
+
+    function downloadSource() {
+        if (!lastRawHtml) {
+            alert('tidak ada konten untuk didownload.');
+            return;
+        }
+        const blob = new Blob([lastRawHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        let fileName = 'source_view.html';
+        if (lastFetchedUrl) {
+            let domain = lastFetchedUrl.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/[^a-z0-9]/gi, '_');
+            fileName = `source_${domain}_${Date.now()}.html`;
+        }
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function clearAll() {
+        sourceContainer.innerHTML = `<div style="color: #6a7c9e; text-align: center; padding: 40px;">
+            bersih. masukkan URL baru.
+        </div>`;
+        lastRawHtml = '';
+        lastFetchedUrl = '';
+        resultUrlLabel.innerText = 'URL: -';
+    }
+
+    function reRenderCurrentSource() {
+        if (lastRawHtml) {
+            let final = prettyCheckbox.checked ? prettyPrintHtml(lastRawHtml) : lastRawHtml;
+            const escaped = escapeHtml(final);
+            sourceContainer.innerHTML = `<pre>${escaped}</pre>`;
+        }
+    }
+
+    fetchBtn.addEventListener('click', fetchSource);
+    copyBtn.addEventListener('click', copySource);
+    downloadBtn.addEventListener('click', downloadSource);
+    clearBtn.addEventListener('click', clearAll);
     
-    resetBtn.addEventListener("click", resetGame);
+    targetUrlInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') fetchSource();
+    });
     
-    // Init
-    renderBoard();
+    prettyCheckbox.addEventListener('change', reRenderCurrentSource);
+    rawCheckbox.addEventListener('change', reRenderCurrentSource);
 </script>
 </body>
-  </html>
+    </html>
