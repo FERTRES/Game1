@@ -11,11 +11,11 @@
             box-sizing: border-box;
         }
         body {
-            background: #0a0e1a;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             font-family: 'Courier New', 'Fira Code', monospace;
             padding: 20px;
             min-height: 100vh;
-            color: #e0e0e0;
+            color: #e0e0ff;
         }
         .container {
             max-width: 1500px;
@@ -24,20 +24,29 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
-            border-bottom: 2px solid #2a3a6a;
+            border-bottom: 2px solid #8b5cf6;
             padding-bottom: 20px;
         }
         .header h1 {
-            font-size: 1.8rem;
-            color: #6c9eff;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #a78bfa, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             letter-spacing: 2px;
         }
+        .header p {
+            color: #c4b5fd;
+            margin-top: 8px;
+        }
         .input-panel {
-            background: #11161f;
-            border: 1px solid #2a3a5a;
-            border-radius: 16px;
+            background: rgba(15, 12, 41, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid #8b5cf6;
+            border-radius: 20px;
             padding: 22px;
             margin-bottom: 28px;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25);
         }
         .url-input-group {
             display: flex;
@@ -46,36 +55,35 @@
         }
         .url-input {
             flex: 1;
-            background: #0a0f18;
-            border: 1px solid #2a4a7a;
-            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #8b5cf6;
             border-radius: 40px;
-            color: #b0d0ff;
+            padding: 14px 18px;
+            color: #ddd6fe;
             font-family: monospace;
             font-size: 0.9rem;
             outline: none;
+            transition: 0.2s;
         }
         .url-input:focus {
-            border-color: #6c9eff;
-            box-shadow: 0 0 8px rgba(108,158,255,0.3);
+            border-color: #c084fc;
+            box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
         }
         .btn {
-            background: #1e2a3e;
-            border: 1px solid #3a5a8a;
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            border: none;
             padding: 12px 28px;
             border-radius: 40px;
-            color: #bbd9ff;
+            color: white;
             font-weight: bold;
             cursor: pointer;
             font-family: monospace;
+            transition: 0.2s;
         }
-        .btn-primary {
-            background: #2a4a7a;
-            border-color: #6c9eff;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #3a6aaa;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.5);
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
         }
         .options-bar {
             display: flex;
@@ -89,14 +97,14 @@
             align-items: center;
             gap: 8px;
             font-size: 0.75rem;
-            color: #8a9ac0;
+            color: #c4b5fd;
         }
         .method-select {
-            background: #0a0f18;
-            border: 1px solid #2a4a7a;
-            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #8b5cf6;
             border-radius: 30px;
-            color: #bbd9ff;
+            padding: 8px 12px;
+            color: #ddd6fe;
             font-family: monospace;
             font-size: 0.75rem;
             cursor: pointer;
@@ -107,17 +115,19 @@
             gap: 20px;
         }
         .result-panel, .preview-panel {
-            background: #0c111c;
-            border-radius: 18px;
-            border: 1px solid #2a3a5a;
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid #8b5cf6;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
         .panel-header {
-            background: #0f1622;
+            background: rgba(109, 40, 217, 0.3);
             padding: 12px 20px;
-            border-bottom: 1px solid #2a3a5a;
+            border-bottom: 1px solid #8b5cf6;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -126,33 +136,39 @@
         }
         .panel-title {
             font-size: 0.8rem;
-            color: #6c9eff;
+            color: #c084fc;
             font-family: monospace;
+            font-weight: bold;
         }
         .action-buttons {
             display: flex;
             gap: 10px;
         }
         .small-btn {
-            background: #1a2538;
-            border: 1px solid #3a5580;
+            background: rgba(109, 40, 217, 0.5);
+            border: 1px solid #8b5cf6;
             padding: 6px 14px;
             border-radius: 30px;
             font-size: 0.7rem;
             cursor: pointer;
             font-family: monospace;
-            color: #bbd0ff;
+            color: #ddd6fe;
+            transition: 0.2s;
+        }
+        .small-btn:hover {
+            background: #7c3aed;
+            border-color: #c084fc;
         }
         .source-viewer {
-            background: #050a12;
+            background: rgba(0, 0, 0, 0.5);
             padding: 20px;
             overflow: auto;
-            max-height: 500px;
+            max-height: 520px;
             font-size: 12px;
             line-height: 1.5;
             white-space: pre-wrap;
             word-break: break-word;
-            color: #c0d0f0;
+            color: #ddd6fe;
             flex: 1;
         }
         .source-viewer pre {
@@ -162,26 +178,69 @@
         }
         .preview-frame {
             width: 100%;
-            height: 500px;
+            height: 520px;
             border: none;
-            background: white;
+            background: #0f0c29;
+            border-radius: 12px;
         }
         .error-message {
-            background: #2a1018;
-            border-left: 4px solid #ff6680;
+            background: rgba(220, 38, 38, 0.2);
+            border-left: 4px solid #f87171;
             padding: 16px;
-            color: #ffaa99;
+            color: #fca5a5;
         }
-        .loading {
-            text-align: center;
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 40px;
-            color: #6c9eff;
+            gap: 20px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #4c1d95;
+            border-top: 3px solid #c084fc;
+            border-right: 3px solid #a78bfa;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .pulse-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+        .pulse-dots span {
+            width: 10px;
+            height: 10px;
+            background: #c084fc;
+            border-radius: 50%;
+            animation: pulse 1.4s ease-in-out infinite;
+        }
+        .pulse-dots span:nth-child(1) { animation-delay: 0s; }
+        .pulse-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .pulse-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse {
+            0%, 60%, 100% { transform: scale(0.6); opacity: 0.4; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+        .loading-text {
+            color: #c084fc;
+            font-family: monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
         }
         .footer {
             margin-top: 24px;
             text-align: center;
             font-size: 0.7rem;
-            color: #4a5a78;
+            color: #8b5cf6;
         }
         @media (max-width: 900px) {
             .split-panel { grid-template-columns: 1fr; }
@@ -195,20 +254,20 @@
 <div class="container">
     <div class="header">
         <h1>𝗦𝗢𝗨𝗥𝗖𝗘 𝗠𝗜𝗥𝗥𝗢𝗥</h1>
-        <p></p>
+        <p>v5.00.1 ©by derty</p>
     </div>
 
     <div class="input-panel">
         <div class="url-input-group">
             <input type="text" id="targetUrl" class="url-input" placeholder="https://example.com" value="https://example.com">
-            <button id="fetchBtn" class="btn btn-primary">AMBIL</button>
+            <button id="fetchBtn" class="btn">AMBIL</button>
         </div>
         <div class="options-bar">
             <label class="checkbox-label">
                 <input type="checkbox" id="prettyCheckbox" checked> Pretty print
             </label>
             <label class="checkbox-label">
-                <input type="checkbox" id="rawCheckbox"> Raw response
+                <input type="checkbox" id="rawCheckbox"> Raw respone
             </label>
             <select id="methodSelect" class="method-select">
                 <option value="auto">AUTO (coba semua)</option>
@@ -230,7 +289,6 @@
     </div>
 
     <div class="split-panel">
-        <!-- SOURCE PANEL -->
         <div class="result-panel">
             <div class="panel-header">
                 <span class="panel-title" id="resultUrlLabel">URL: -</span>
@@ -241,28 +299,27 @@
                 </div>
             </div>
             <div id="sourceContainer" class="source-viewer">
-                <div style="color: #6a7c9e; text-align: center; padding: 40px;">
+                <div style="color: #7e8aa2; text-align: center; padding: 40px;">
                     
                 </div>
             </div>
         </div>
 
-        <!-- PREVIEW PANEL -->
         <div class="preview-panel">
             <div class="panel-header">
-                <span class="panel-title">PREVIEW</span>
+                <span class="panel-title">LIVE PREVIEW</span>
                 <div class="action-buttons">
                     <button id="refreshPreviewBtn" class="small-btn">REFRESH</button>
-                    <button id="openPreviewBtn" class="small-btn">TABNEW</button>
+                    <button id="openPreviewBtn" class="small-btn">NEWTAB</button>
                 </div>
             </div>
-            <div id="previewContainer" style="flex:1; background:#fff; display: flex; align-items: center; justify-content: center;">
-                <iframe id="previewFrame" class="preview-frame" srcdoc="<html><body style='background:#1a1a2a;color:#aaa;display:flex;align-items:center;justify-content:center;height:100%;font-family:monospace'>Preview akan muncul setelah source diambil</body></html>"></iframe>
+            <div id="previewContainer" style="flex:1; background:#0f0c29; display: flex; align-items: center; justify-content: center; padding: 8px;">
+                <iframe id="previewFrame" class="preview-frame" srcdoc="<html><body style='margin:0;background:#0f0c29;display:flex;align-items:center;justify-content:center;height:100%;font-family:monospace'><div style='text-align:center'><div style='width:45px;height:45px;border:2px solid #4c1d95;border-top:2px solid #c084fc;border-right:2px solid #a78bfa;border-radius:50%;animation:s 0.8s linear infinite;margin:0 auto 16px auto'></div><div style='color:#a78bfa'>waitting</div><style>@keyframes s{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style></div></body></html>"></iframe>
             </div>
         </div>
     </div>
     <div class="footer">
-        ©by derty v3.00
+         v5.00.1 ©by derty
     </div>
 </div>
 
@@ -284,8 +341,6 @@
     let lastRawHtml = '';
     let lastFetchedUrl = '';
     let lastRawUrl = '';
-
-    // ===================== METHODE IMPLEMENTASI =====================
 
     async function m_allorigins(url) {
         const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
@@ -478,7 +533,6 @@
         }
     }
 
-    // UTILITIES
     function prettyHtml(html) {
         if (rawCheckbox.checked) return html;
         let formatted = html.replace(/>\s*</g, '>\n<').replace(/(\n\s*)+/g, '\n');
@@ -506,24 +560,184 @@
         });
     }
 
+    function getFancyPreviewLoadingHTML() {
+        return `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body {
+                        background: linear-gradient(135deg, #0f0c29, #302b63);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100vh;
+                        font-family: 'Courier New', monospace;
+                        overflow: hidden;
+                    }
+                    .loader-wrapper {
+                        text-align: center;
+                        animation: fadeIn 0.5s ease;
+                    }
+                    .neon-spinner {
+                        width: 70px;
+                        height: 70px;
+                        margin: 0 auto 24px auto;
+                        position: relative;
+                    }
+                    .neon-spinner .ring {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        border: 3px solid transparent;
+                        border-top-color: #c084fc;
+                        border-right-color: #a78bfa;
+                        animation: spin 0.8s linear infinite;
+                    }
+                    .neon-spinner .ring:nth-child(2) {
+                        width: 85%;
+                        height: 85%;
+                        top: 7.5%;
+                        left: 7.5%;
+                        border-top-color: #8b5cf6;
+                        border-right-color: #7c3aed;
+                        animation-duration: 0.6s;
+                        animation-direction: reverse;
+                    }
+                    .neon-spinner .ring:nth-child(3) {
+                        width: 60%;
+                        height: 60%;
+                        top: 20%;
+                        left: 20%;
+                        border-top-color: #a78bfa;
+                        border-left-color: #c084fc;
+                        animation-duration: 1s;
+                    }
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    .pulse-container {
+                        display: flex;
+                        gap: 14px;
+                        justify-content: center;
+                        margin-bottom: 24px;
+                    }
+                    .pulse-ball {
+                        width: 12px;
+                        height: 12px;
+                        background: #c084fc;
+                        border-radius: 50%;
+                        animation: bounce 1.2s ease-in-out infinite;
+                        box-shadow: 0 0 8px #c084fc;
+                    }
+                    .pulse-ball:nth-child(1) { animation-delay: 0s; background: #c084fc; }
+                    .pulse-ball:nth-child(2) { animation-delay: 0.15s; background: #a78bfa; }
+                    .pulse-ball:nth-child(3) { animation-delay: 0.3s; background: #8b5cf6; }
+                    .pulse-ball:nth-child(4) { animation-delay: 0.45s; background: #7c3aed; }
+                    @keyframes bounce {
+                        0%, 60%, 100% { transform: translateY(0) scale(0.8); opacity: 0.5; }
+                        30% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+                    }
+                    .loading-text {
+                        color: #c084fc;
+                        font-size: 0.85rem;
+                        letter-spacing: 3px;
+                        text-transform: uppercase;
+                        font-weight: bold;
+                        text-shadow: 0 0 8px rgba(192,132,252,0.5);
+                        animation: textPulse 1.5s ease-in-out infinite;
+                    }
+                    .loading-dots {
+                        display: inline-flex;
+                        gap: 4px;
+                        margin-left: 6px;
+                    }
+                    .loading-dots span {
+                        animation: dotBlink 1.4s infinite;
+                        opacity: 0;
+                    }
+                    .loading-dots span:nth-child(1) { animation-delay: 0s; }
+                    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+                    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+                    @keyframes dotBlink {
+                        0%, 100% { opacity: 0; }
+                        50% { opacity: 1; }
+                    }
+                    @keyframes textPulse {
+                        0%, 100% { opacity: 0.7; }
+                        50% { opacity: 1; }
+                    }
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: scale(0.95); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="loader-wrapper">
+                    <div class="neon-spinner">
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                    </div>
+                    <div class="pulse-container">
+                        <div class="pulse-ball"></div>
+                        <div class="pulse-ball"></div>
+                        <div class="pulse-ball"></div>
+                        <div class="pulse-ball"></div>
+                    </div>
+                    <div class="loading-text">
+                        LOADING PREVIEW
+                        <div class="loading-dots">
+                            <span>.</span><span>.</span><span>.</span>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            </html>
+        `;
+    }
+
+    function showPreviewLoading() {
+        previewFrame.srcdoc = getFancyPreviewLoadingHTML();
+    }
+
     function updatePreview(htmlContent, baseUrl) {
         if (!htmlContent) {
-            previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#aaa;display:flex;align-items:center;justify-content:center;height:100%'>Preview tidak tersedia</body></html>";
+            showPreviewLoading();
             return;
         }
         let doc = htmlContent;
         if (!doc.toLowerCase().includes('<html')) {
-            doc = `<html><head><base href="${baseUrl}"></head><body>${doc}</body></html>`;
+            doc = `<html><head><base href="${baseUrl}"><style>body{background:white;}</style></head><body>${doc}</body></html>`;
         } else {
             doc = doc.replace(/<head/i, `<head><base href="${baseUrl}">`);
         }
         previewFrame.srcdoc = doc;
     }
 
+    function showLoadingAnimation() {
+        sourceContainer.innerHTML = `
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <div class="pulse-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="loading-text">mengeksekusi ${methodSelect.value}</div>
+            </div>
+        `;
+        showPreviewLoading();
+    }
+
     function displaySource(htmlContent, originalUrl, methodUsed) {
         lastRawHtml = htmlContent;
         lastFetchedUrl = originalUrl;
-        let info = `${originalUrl} | ${(htmlContent.length/1024).toFixed(1)} KB | method: ${methodUsed}`;
+        let info = `URL: ${originalUrl} | size: ${(htmlContent.length/1024).toFixed(1)} KB | method: ${methodUsed}`;
         resultUrlLabel.innerText = info;
         let finalHtml = prettyCheckbox.checked ? prettyHtml(htmlContent) : htmlContent;
         sourceContainer.innerHTML = `<pre>${escapeHtml(finalHtml)}</pre>`;
@@ -536,14 +750,9 @@
             URL: ${escapeHtml(url)}<br>
             coba ganti metode (googlecache / archive / iframe)
         </div>`;
-        previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#ff8888;display:flex;align-items:center;justify-content:center;height:100%'>Gagal memuat preview</body></html>";
+        previewFrame.srcdoc = "<html><body style='background:#0f0c29;color:#fca5a5;display:flex;align-items:center;justify-content:center;height:100%;font-family:monospace'>Gagal memuat preview</body></html>";
         lastRawHtml = '';
-        resultUrlLabel.innerText = 'error';
-    }
-
-    function showLoading() {
-        sourceContainer.innerHTML = `<div class="loading">⟳ mengeksekusi ${methodSelect.value} ...</div>`;
-        previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#6c9eff;display:flex;align-items:center;justify-content:center;height:100%'>Memuat preview...</body></html>";
+        resultUrlLabel.innerText = 'URL: error';
     }
 
     async function fetchSource() {
@@ -552,7 +761,7 @@
         if (!rawUrl.startsWith('http')) rawUrl = 'https://' + rawUrl;
         targetUrlInput.value = rawUrl;
         lastRawUrl = rawUrl;
-        showLoading();
+        showLoadingAnimation();
         try {
             const { html, method } = await masterFetch(rawUrl);
             if (!html || html.length < 15) throw new Error('konten terlalu pendek');
@@ -588,7 +797,7 @@
     function copySource() {
         if (!lastRawHtml) { alert('tidak ada source'); return; }
         navigator.clipboard.writeText(lastRawHtml);
-        alert('source disalin');
+        alert('source disalin ke clipboard');
     }
 
     function downloadSource() {
@@ -604,8 +813,8 @@
     }
 
     function clearAll() {
-        sourceContainer.innerHTML = `<div style="color: #6a7c9e; text-align: center; padding: 40px;">bersih. masukkan url baru.</div>`;
-        previewFrame.srcdoc = "<html><body style='background:#1a1a2a;color:#aaa;display:flex;align-items:center;justify-content:center;height:100%'>Preview akan muncul setelah source diambil</body></html>";
+        sourceContainer.innerHTML = `<div style="color: #7e8aa2; text-align: center; padding: 40px;">bersih. masukkan url baru.</div>`;
+        showPreviewLoading();
         lastRawHtml = '';
         lastFetchedUrl = '';
         resultUrlLabel.innerText = 'URL: -';
