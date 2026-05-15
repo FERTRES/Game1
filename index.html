@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Source Mirror Phone</title>
+    <title>Source Mirror - No Proxy Mode</title>
     <style>
         * {
             margin: 0;
@@ -118,6 +118,17 @@
             color: #8a9ac0;
         }
 
+        .method-select {
+            background: #0a0f18;
+            border: 1px solid #2a4a7a;
+            padding: 8px 12px;
+            border-radius: 30px;
+            color: #bbd9ff;
+            font-family: monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
         .result-panel {
             background: #0c111c;
             border-radius: 18px;
@@ -213,25 +224,29 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>SOURCE MIRROR BY DERTY</h1>
-        <p>ANDROID PHONE X OS PHONE</p>
+        <h1>SOURCE MIRROR</h1>
+        <p>ambil source HTML via server-side / jsonp / fallback</p>
     </div>
 
     <div class="input-panel">
         <div class="url-input-group">
-            <input type="text" id="targetUrl" class="url-input" placeholder="masukkan URL web target (contoh: https://example.com)" value="https://example.com">
-            <button id="fetchBtn" class="btn btn-primary">AMBIL CODE</button>
+            <input type="text" id="targetUrl" class="url-input" placeholder="https://example.com" value="https://example.com">
+            <button id="fetchBtn" class="btn btn-primary">AMBIL SOURCE</button>
         </div>
         <div class="options-bar">
             <label class="checkbox-label">
                 <input type="checkbox" id="prettyCheckbox" checked> Format rapi
             </label>
             <label class="checkbox-label">
-                <input type="checkbox" id="rawCheckbox"> Rraw response
+                <input type="checkbox" id="rawCheckbox"> Raw response
             </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="injectProxyCheckbox" checked> Gunakan CORS proxy
-            </label>
+            <select id="methodSelect" class="method-select">
+                <option value="auto">Auto (coba semua)</option>
+                <option value="corsproxy">CORS Proxy</option>
+                <option value="allorigins">AllOrigins</option>
+                <option value="jsonp">JSONP Google</option>
+                <option value="textise">Textise.iitty</option>
+            </select>
         </div>
     </div>
 
@@ -239,19 +254,19 @@
         <div class="result-header">
             <span class="result-title" id="resultUrlLabel">URL: -</span>
             <div class="action-buttons">
-                <button id="copyBtn" class="small-btn">COPY</button>
-                <button id="downloadBtn" class="small-btn">DOWNLOAD</button>
+                <button id="copyBtn" class="small-btn">COPY SOURCE</button>
+                <button id="downloadBtn" class="small-btn">DOWNLOAD HTML</button>
                 <button id="clearBtn" class="small-btn">CLEAR</button>
             </div>
         </div>
         <div id="sourceContainer" class="source-viewer">
             <div style="color: #6a7c9e; text-align: center; padding: 40px;">
-                Taruh link target
+                masukkan URL dan klik ambil source
             </div>
         </div>
     </div>
     <div class="footer">
-        ©ANDROID PHONE X OS PHONE 
+        source mirror • multi metode tanpa proxy mandiri
     </div>
 </div>
 
@@ -265,49 +280,99 @@
     const resultUrlLabel = document.getElementById('resultUrlLabel');
     const prettyCheckbox = document.getElementById('prettyCheckbox');
     const rawCheckbox = document.getElementById('rawCheckbox');
-    const injectProxyCheckbox = document.getElementById('injectProxyCheckbox');
+    const methodSelect = document.getElementById('methodSelect');
 
     let lastRawHtml = '';
     let lastFetchedUrl = '';
 
-    async function fetchHtmlViaProxy(url) {
-        const useProxy = injectProxyCheckbox.checked;
-        
-        if (!useProxy) {
-            const response = await fetch(url, {
-                mode: 'cors',
-                headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SourceMirror/1.0)' }
-            });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.text();
+    // METHOD 1: AllOrigins (CORS proxy gratis)
+    async function fetchAllOrigins(url) {
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl);
+        if (!res.ok) throw new Error(`AllOrigins HTTP ${res.status}`);
+        return await res.text();
+    }
+
+    // METHOD 2: CORSProxy.io
+    async function fetchCorsProxy(url) {
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl);
+        if (!res.ok) throw new Error(`CORSProxy HTTP ${res.status}`);
+        return await res.text();
+    }
+
+    // METHOD 3: JSONP via Google WebCache (alternatif)
+    async function fetchViaGoogleCache(url) {
+        const cacheUrl = `https://webcache.googleusercontent.com/search?q=cache:${encodeURIComponent(url)}&strip=1&vwsrc=0`;
+        const res = await fetch(cacheUrl, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+        });
+        if (!res.ok) throw new Error('Google cache tidak tersedia');
+        let html = await res.text();
+        // ekstrak konten dari halaman cache google
+        if (html.includes('<pre') || html.includes('id="google-cache')) {
+            return html;
         }
-        
-        try {
-            const allOriginsUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-            const resp = await fetch(allOriginsUrl);
-            if (resp.ok) {
-                return await resp.text();
-            }
-        } catch (e) {}
+        return html;
+    }
 
-        try {
-            const corsProxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-            const resp2 = await fetch(corsProxy);
-            if (resp2.ok) {
-                return await resp2.text();
-            }
-        } catch (e) {}
+    // METHOD 4: Textise.iitty (scraper sederhana)
+    async function fetchTextise(url) {
+        const textiseUrl = `https://textise.iitty.com/?u=${encodeURIComponent(url)}`;
+        const res = await fetch(textiseUrl);
+        if (!res.ok) throw new Error('Textise gagal');
+        let text = await res.text();
+        const match = text.match(/<div id="content"[^>]*>([\s\S]*?)<\/div>/i);
+        if (match && match[1]) return match[1];
+        throw new Error('tidak bisa parse textise');
+    }
 
-        try {
-            const tpUrl = `https://api.thingsproxy.com/get?url=${encodeURIComponent(url)}`;
-            const resp3 = await fetch(tpUrl);
-            if (resp3.ok) {
-                const json = await resp3.json();
-                if (json && json.content) return json.content;
-            }
-        } catch (e) {}
+    // METHOD 5: direct fetch (tanpa proxy)
+    async function fetchDirect(url) {
+        const res = await fetch(url, {
+            mode: 'cors',
+            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SourceViewer/1.0)' }
+        });
+        if (!res.ok) throw new Error(`Direct HTTP ${res.status}`);
+        return await res.text();
+    }
 
-        throw new Error('Gagal mengambil source melalui proxy.');
+    async function fetchWithMethod(url, method) {
+        switch(method) {
+            case 'allorigins': return await fetchAllOrigins(url);
+            case 'corsproxy': return await fetchCorsProxy(url);
+            case 'jsonp': return await fetchViaGoogleCache(url);
+            case 'textise': return await fetchTextise(url);
+            case 'direct': return await fetchDirect(url);
+            default: throw new Error('unknown method');
+        }
+    }
+
+    async function fetchAuto(url) {
+        const methods = ['allorigins', 'corsproxy', 'jsonp', 'textise', 'direct'];
+        let lastError = null;
+        for (const m of methods) {
+            try {
+                const result = await fetchWithMethod(url, m);
+                if (result && result.length > 50) {
+                    console.log(`success using ${m}`);
+                    return result;
+                }
+            } catch (e) {
+                lastError = e;
+                console.warn(`${m} failed:`, e.message);
+            }
+        }
+        throw lastError || new Error('semua metode gagal');
+    }
+
+    async function fetchHtmlSmart(url) {
+        const selectedMethod = methodSelect.value;
+        if (selectedMethod === 'auto') {
+            return await fetchAuto(url);
+        } else {
+            return await fetchWithMethod(url, selectedMethod);
+        }
     }
 
     function prettyPrintHtml(htmlString) {
@@ -332,10 +397,12 @@
         return result.join('\n');
     }
 
-    function displaySource(htmlContent, originalUrl) {
+    function displaySource(htmlContent, originalUrl, methodUsed = '') {
         lastRawHtml = htmlContent;
         lastFetchedUrl = originalUrl;
-        resultUrlLabel.innerText = `URL: ${originalUrl} | size: ${(htmlContent.length/1024).toFixed(1)} KB`;
+        let info = `URL: ${originalUrl} | size: ${(htmlContent.length/1024).toFixed(1)} KB`;
+        if (methodUsed) info += ` | method: ${methodUsed}`;
+        resultUrlLabel.innerText = info;
 
         let finalHtml = prettyCheckbox.checked ? prettyPrintHtml(htmlContent) : htmlContent;
         const escaped = escapeHtml(finalHtml);
@@ -356,13 +423,14 @@
             GAGAL mengambil source<br>
             Detail: ${escapeHtml(msg)}<br>
             URL: ${escapeHtml(urlHint || targetUrlInput.value)}
+            <br><br>Tips: coba ganti metode di dropdown (jsonp / textise)
         </div>`;
         lastRawHtml = '';
         resultUrlLabel.innerText = `URL: error`;
     }
 
     function showLoading() {
-        sourceContainer.innerHTML = `<div class="loading">mengambil source ... memuat konten via proxy</div>`;
+        sourceContainer.innerHTML = `<div class="loading">memuat source ... (${methodSelect.value})</div>`;
     }
 
     async function fetchSource() {
@@ -379,11 +447,13 @@
         showLoading();
         
         try {
-            const htmlContent = await fetchHtmlViaProxy(rawUrl);
-            if (!htmlContent || htmlContent.length < 10) {
-                throw new Error('konten terlalu pendek');
+            const htmlContent = await fetchHtmlSmart(rawUrl);
+            if (!htmlContent || htmlContent.length < 20) {
+                throw new Error('konten terlalu pendek atau tidak valid');
             }
-            displaySource(htmlContent, rawUrl);
+            let usedMethod = methodSelect.value;
+            if (usedMethod === 'auto') usedMethod = 'auto (berhasil)';
+            displaySource(htmlContent, rawUrl, usedMethod);
         } catch (err) {
             console.error(err);
             showError(err.message, rawUrl);
